@@ -1,7 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, FC } from "react";
 import { KTSVG } from "./KTSVG";
 
-const Nav = () => {
+interface IProps {
+    handleIsVisible: () => void
+}
+
+const Nav:FC<IProps> = ({handleIsVisible}) => {
     const [stickyClass, setStickyClass] = useState("relative");
     useEffect(() => {
         window.addEventListener("scroll", stickNavbar);
@@ -15,7 +19,9 @@ const Nav = () => {
         if (window !== undefined) {
             let windowHeight = window.scrollY;
             windowHeight > 200
-                ? setStickyClass("fixed left-0 right-[30rem] top-0 smoothScrollSticky")
+                ? setStickyClass(
+                      "fixed left-0 right-[30rem] top-0 smoothScrollSticky"
+                  )
                 : setStickyClass("relative");
         }
     };
@@ -24,13 +30,19 @@ const Nav = () => {
             className={`${stickyClass} z-10 flex h-[60px] items-stretch justify-between bg-white`}
         >
             <nav className="container mx-auto flex items-center justify-between">
-                <div className="flex flex-col">
+                <div className="hidden flex-col md:flex">
                     <div className="font-yekan_bold text-3xl text-primary">
                         ثبت درخواست
                     </div>
                     <div className="font-yekan_bold text-xl">
                         صفحه اصلی / ثبت درخواست
                     </div>
+                </div>
+                <div onClick={handleIsVisible} className="cursor-pointer rounded-xl border p-4 hover:text-blue-600 md:hidden">
+                    <KTSVG
+                        path="/media/logos/abs015.svg"
+                        svgClassName="h-[18px]"
+                    />
                 </div>
                 <div className="flex flex-shrink-0 gap-4">
                     <div className="cursor-pointer rounded-xl border p-4 hover:text-blue-600">
